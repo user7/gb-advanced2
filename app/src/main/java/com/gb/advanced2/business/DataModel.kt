@@ -1,6 +1,5 @@
-package com.gb.advanced2.Entities
+package com.gb.advanced2.business
 
-import com.gb.advanced2.Meanings
 import com.google.gson.annotations.SerializedName
 
 class DataModel(

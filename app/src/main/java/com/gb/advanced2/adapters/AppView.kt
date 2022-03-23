@@ -1,4 +1,4 @@
-package com.gb.advanced2
+package com.gb.advanced2.adapters
 
 interface AppView {
     // View имеет только один метод, в который приходит некое состояние приложения

@@ -1,5 +1,7 @@
-package com.gb.advanced2
+package com.gb.advanced2.adapters
 
+import com.gb.advanced2.business.DataModel
+import com.gb.advanced2.externals.data_source.Repository
 import io.reactivex.Observable
 
 class MainInteractor(

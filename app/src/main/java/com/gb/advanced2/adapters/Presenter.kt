@@ -1,4 +1,4 @@
-package com.gb.advanced2
+package com.gb.advanced2.adapters
 
 interface Presenter<T : AppState, V : AppView> {
     fun attachView(view: V)

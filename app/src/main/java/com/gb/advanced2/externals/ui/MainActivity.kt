@@ -1,10 +1,16 @@
-package com.gb.advanced2
+package com.gb.advanced2.externals.ui
 
 import android.os.Bundle
 import android.view.View.VISIBLE
 import android.view.View.GONE
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gb.advanced2.*
+import com.gb.advanced2.adapters.AppView
+import com.gb.advanced2.adapters.MainPresenterImpl
+import com.gb.advanced2.adapters.Presenter
+import com.gb.advanced2.adapters.AppState
+import com.gb.advanced2.business.DataModel
 import com.gb.advanced2.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity<AppState>() {

@@ -1,10 +1,12 @@
-package com.gb.advanced2
+package com.gb.advanced2.externals.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.gb.advanced2.business.DataModel
+import com.gb.advanced2.R
 
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener,

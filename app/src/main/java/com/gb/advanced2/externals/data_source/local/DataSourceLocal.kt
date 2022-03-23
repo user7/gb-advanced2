@@ -1,5 +1,8 @@
-package com.gb.advanced2
+package com.gb.advanced2.externals.data_source.local
 
+import com.gb.advanced2.business.DataModel
+import com.gb.advanced2.externals.data_source.DataSource
+import com.gb.advanced2.RoomDataBaseImplementation
 import io.reactivex.Observable
 
 // Для локальных данных используется Room

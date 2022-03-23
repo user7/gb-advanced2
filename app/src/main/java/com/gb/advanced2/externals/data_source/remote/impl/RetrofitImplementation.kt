@@ -1,5 +1,7 @@
-package com.gb.advanced2
+package com.gb.advanced2.externals.data_source.remote.impl
 
+import com.gb.advanced2.business.DataModel
+import com.gb.advanced2.externals.data_source.DataSource
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable
 import okhttp3.Interceptor

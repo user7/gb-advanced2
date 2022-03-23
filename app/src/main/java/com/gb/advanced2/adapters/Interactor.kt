@@ -1,4 +1,4 @@
-package com.gb.advanced2
+package com.gb.advanced2.adapters
 
 import io.reactivex.Observable
 

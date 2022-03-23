@@ -1,5 +1,8 @@
-package com.gb.advanced2
+package com.gb.advanced2.adapters
 
+import com.gb.advanced2.externals.data_source.local.DataSourceLocal
+import com.gb.advanced2.externals.data_source.remote.DataSourceRemote
+import com.gb.advanced2.externals.data_source.RepositoryImplementation
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 

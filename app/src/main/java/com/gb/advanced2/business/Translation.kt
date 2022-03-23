@@ -1,4 +1,4 @@
-package com.gb.advanced2
+package com.gb.advanced2.business
 
 import com.google.gson.annotations.SerializedName
 

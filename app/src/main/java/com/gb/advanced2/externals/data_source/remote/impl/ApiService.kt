@@ -1,6 +1,6 @@
-package com.gb.advanced2
+package com.gb.advanced2.externals.data_source.remote.impl
 
-import com.gb.advanced2.Entities.DataModel
+import com.gb.advanced2.business.DataModel
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

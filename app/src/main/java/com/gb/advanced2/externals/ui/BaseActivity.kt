@@ -1,7 +1,10 @@
-package com.gb.advanced2
+package com.gb.advanced2.externals.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.gb.advanced2.adapters.AppView
+import com.gb.advanced2.adapters.AppState
+import com.gb.advanced2.adapters.Presenter
 
 abstract class BaseActivity<T : AppState> : AppCompatActivity(), AppView {
     protected lateinit var presenter: Presenter<T, AppView>
