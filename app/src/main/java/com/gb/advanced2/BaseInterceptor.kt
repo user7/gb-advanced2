@@ -15,15 +15,14 @@ class BaseInterceptor private constructor() : Interceptor {
     }
 
     fun getResponseCode(): ServerResponseStatusCode {
-        var statusCode = ServerResponseStatusCode.UNDEFINED_ERROR
-        when (responseCode / 100) {
-            1 -> statusCode = ServerResponseStatusCode.INFO
-            2 -> statusCode = ServerResponseStatusCode.SUCCESS
-            3 -> statusCode = ServerResponseStatusCode.REDIRECTION
-            4 -> statusCode = ServerResponseStatusCode.CLIENT_ERROR
-            5 -> statusCode = ServerResponseStatusCode.SERVER_ERROR
+        return when (responseCode / 100) {
+            1 -> ServerResponseStatusCode.INFO
+            2 -> ServerResponseStatusCode.SUCCESS
+            3 -> ServerResponseStatusCode.REDIRECTION
+            4 -> ServerResponseStatusCode.CLIENT_ERROR
+            5 -> ServerResponseStatusCode.SERVER_ERROR
+            else -> ServerResponseStatusCode.UNKNOWN_ERROR
         }
-        return statusCode
     }
 
     enum class ServerResponseStatusCode {
@@ -32,11 +31,10 @@ class BaseInterceptor private constructor() : Interceptor {
         REDIRECTION,
         CLIENT_ERROR,
         SERVER_ERROR,
-        UNDEFINED_ERROR
+        UNKNOWN_ERROR
     }
 
     companion object {
-        val interceptor: BaseInterceptor
-            get() = BaseInterceptor()
+        val interceptor: BaseInterceptor get() = BaseInterceptor()
     }
 }

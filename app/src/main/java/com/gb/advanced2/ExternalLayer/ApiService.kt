@@ -1,5 +1,6 @@
 package com.gb.advanced2
 
+import com.gb.advanced2.Entities.DataModel
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
