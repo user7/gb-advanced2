@@ -1,6 +1,5 @@
 package com.gb.advanced2.externals.repo
 
-import android.util.Log
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.entities.Article
 import com.gb.advanced2.entities.Articles
@@ -10,8 +9,6 @@ import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
 
 class RemoteRepository : Contract.Model {
     private val service: ApiService = makeRetrofit()
