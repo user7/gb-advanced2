@@ -4,6 +4,7 @@ import android.util.Log
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.entities.Article
 import com.gb.advanced2.entities.Articles
+import com.gb.advanced2.externals.repo.retrofit.ApiService
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -17,7 +18,7 @@ class RemoteRepository : Contract.Model {
 
     private fun makeRetrofit(): ApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://dictionary.skyeng.ru/api/public/v1/")
+            .baseUrl(ApiService.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(OkHttpClient.Builder().build())
@@ -25,15 +26,10 @@ class RemoteRepository : Contract.Model {
         return retrofit.create(ApiService::class.java)
     }
 
-    interface ApiService {
-        @GET("words/search")
-        fun search(@Query("search") searchQuery: String): Observable<List<ModelResponseEntry>>
-    }
-
     override fun getArticles(searchString: String): Observable<Articles> =
         // конвертация retrofit объектов в entities.Article
         service.search(searchString).map { entries ->
-            val out = ArrayList<Article>()
+            val out = Articles()
             for (entry in entries) {
                 if (entry.text == null || entry.meanings == null)
                     continue
@@ -58,18 +54,4 @@ class RemoteRepository : Contract.Model {
             }
             out
         }
-
-    data class ModelResponseEntry(
-        val text: String?,
-        val meanings: List<ModelMeaning>?,
-    )
-
-    data class ModelMeaning(
-        val translation: ModelTranslation?,
-    )
-
-    data class ModelTranslation(
-        val text: String?,
-        val note: String?,
-    )
 }
