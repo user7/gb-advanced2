@@ -5,22 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.entities.Articles
-import com.gb.advanced2.externals.repo.RemoteRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val model: RemoteRepository) : ViewModel(),
+class MainViewModel @Inject constructor(private val model: Contract.Model) : ViewModel(),
     Contract.ViewModel {
 
-    private val mutableState = MutableLiveData<Contract.AppState>(Contract.AppState.Empty)
+    private val mutableState = MutableLiveData<Contract.AppState>(Contract.AppState.Empty())
     override fun getState(): LiveData<Contract.AppState> = mutableState
 
     private var disposable: Disposable? = null
 
     override fun search(searchString: String) {
-        mutableState.value = Contract.AppState.Loading
+        mutableState.value = Contract.AppState.Loading()
         disposable = model.getArticles(searchString)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

@@ -1,10 +1,11 @@
 package com.gb.advanced2.app
 
 import android.app.Application
+import com.gb.advanced2.app.di.AppComponent
 import com.gb.advanced2.app.di.DaggerAppComponent
 
 class App : Application() {
-    val appComponent by lazy {
+    val appComponent: AppComponent by lazy {
         DaggerAppComponent.builder().build()
     }
 

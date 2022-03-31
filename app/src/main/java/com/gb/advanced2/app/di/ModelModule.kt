@@ -1,16 +1,14 @@
 package com.gb.advanced2.app.di
 
-import com.gb.advanced2.adapters.MainViewModel
+import com.gb.advanced2.app.Contract
 import com.gb.advanced2.externals.repo.RemoteRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class RemoteRepositoryModule {
+class ModelModule {
     @Provides
     @Singleton
-    fun provideRemoteRepository() : RemoteRepository {
-        return RemoteRepository()
-    }
+    fun provideModel() : Contract.Model = RemoteRepository()
 }

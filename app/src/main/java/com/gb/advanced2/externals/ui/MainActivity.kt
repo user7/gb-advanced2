@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private val adapter = Adapter()
 
     @Inject
-    lateinit var viewModel: MainViewModel
+    lateinit var viewModel: Contract.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -6,7 +6,7 @@ import javax.inject.Singleton
 
 @Component(
     modules = [
-        RemoteRepositoryModule::class,
+        ModelModule::class,
         ViewModelModule::class,
     ]
 )
@@ -14,4 +14,3 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(mainActivity: MainActivity)
 }
-

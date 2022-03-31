@@ -7,8 +7,8 @@ import io.reactivex.Observable
 class Contract {
 
     sealed class AppState {
-        object Empty : AppState()                               // nothing loaded yet
-        object Loading : AppState()                             // showing progress bar
+        class Empty : AppState()                               // nothing loaded yet
+        class Loading : AppState()                             // showing progress bar
         data class DataLoaded(val data: Articles) : AppState()
         data class Error(val error: String) : AppState()
     }
