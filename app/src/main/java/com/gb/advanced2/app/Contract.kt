@@ -19,6 +19,6 @@ class Contract {
     }
 
     interface Model {
-        fun getArticles(searchString: String): Observable<Articles>
+        suspend fun getArticles(searchString: String): Articles
     }
 }

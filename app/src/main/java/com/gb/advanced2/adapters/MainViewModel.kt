@@ -1,13 +1,12 @@
 package com.gb.advanced2.adapters
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.entities.Articles
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 
 class MainViewModel(private val model: Contract.Model) : ViewModel(),
     Contract.ViewModel {
@@ -15,15 +14,23 @@ class MainViewModel(private val model: Contract.Model) : ViewModel(),
     private val mutableState = MutableLiveData<Contract.AppState>(Contract.AppState.Empty())
     override fun getState(): LiveData<Contract.AppState> = mutableState
 
-    private var disposable: Disposable? = null
+    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     override fun search(searchString: String) {
         mutableState.value = Contract.AppState.Loading()
-        disposable = model.getArticles(searchString)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { onLoadingError(it) }
-            .subscribe { onDataReady(it) }
+        ioScope.launch {
+            try {
+                val result = model.getArticles(searchString)
+                launch(Dispatchers.Main) {
+                    onDataReady(result)
+                }
+            } catch(e: Throwable) {
+                launch(Dispatchers.Main) {
+                    Log.d("===", "error: ${e.toString()}")
+                    onLoadingError(e)
+                }
+            }
+        }
     }
 
     private fun onLoadingError(error: Throwable?) {
@@ -32,10 +39,5 @@ class MainViewModel(private val model: Contract.Model) : ViewModel(),
 
     private fun onDataReady(data: Articles) {
         mutableState.postValue(Contract.AppState.DataLoaded(data))
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposable?.dispose()
     }
 }
