@@ -8,9 +8,8 @@ import com.gb.advanced2.entities.Articles
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val model: Contract.Model) : ViewModel(),
+class MainViewModel(private val model: Contract.Model) : ViewModel(),
     Contract.ViewModel {
 
     private val mutableState = MutableLiveData<Contract.AppState>(Contract.AppState.Empty())
