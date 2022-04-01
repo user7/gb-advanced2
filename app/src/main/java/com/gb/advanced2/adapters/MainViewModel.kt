@@ -15,25 +15,20 @@ class MainViewModel(private val model: Contract.Model) : ViewModel(),
     override fun getState(): LiveData<Contract.AppState> = mutableState
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
+    private val exceptionHandler = CoroutineExceptionHandler { _, e -> onLoadingError(e) }
 
     override fun search(searchString: String) {
         mutableState.value = Contract.AppState.Loading()
-        ioScope.launch {
-            try {
-                val result = model.getArticles(searchString)
-                launch(Dispatchers.Main) {
-                    onDataReady(result)
-                }
-            } catch(e: Throwable) {
-                launch(Dispatchers.Main) {
-                    Log.d("===", "error: ${e.toString()}")
-                    onLoadingError(e)
-                }
+        ioScope.launch(exceptionHandler) {
+            val result = model.getArticles(searchString)
+            launch(Dispatchers.Main) {
+                onDataReady(result)
             }
         }
     }
 
     private fun onLoadingError(error: Throwable?) {
+        Log.d("===", "error: ${error?.toString() ?: "Unknown error"}")
         mutableState.postValue(Contract.AppState.Error(error?.toString() ?: "Unknown Error"))
     }
 
