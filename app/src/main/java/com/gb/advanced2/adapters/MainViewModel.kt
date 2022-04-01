@@ -1,12 +1,12 @@
 package com.gb.advanced2.adapters
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.entities.Articles
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 class MainViewModel(private val model: Contract.Model) : ViewModel(),
     Contract.ViewModel {
@@ -28,7 +28,7 @@ class MainViewModel(private val model: Contract.Model) : ViewModel(),
     }
 
     private fun onLoadingError(error: Throwable?) {
-        Log.d("===", "error: ${error?.toString() ?: "Unknown error"}")
+        Timber.d("=== error: ${error?.toString() ?: "Unknown error"}")
         mutableState.postValue(Contract.AppState.Error(error?.toString() ?: "Unknown Error"))
     }
 
