@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.recyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.recyclerview.adapter = adapter
+
         viewModel.getState().observe(this) { renderState(it) }
     }
 

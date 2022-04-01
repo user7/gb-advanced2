@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val koinModule = module {
     single<Contract.Model> { RemoteRepository() }
-    single<Contract.ViewModel> { MainViewModel(get()) }
+    single<Contract.ViewModel> { MainViewModel(model = get()) }
 }

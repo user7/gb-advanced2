@@ -15,15 +15,6 @@ import java.net.ConnectException
 class RemoteRepository : Contract.Model {
     private val retrofitService: ApiService by lazy { makeRetrofit() }
 
-/*
-    var httpClient = OkHttpClient.Builder()
-    val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.themoviedb.org")
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(httpClient.build())
-        .build()
- */
-
     private fun makeRetrofit(): ApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl(ApiService.BASE_URL)

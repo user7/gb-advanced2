@@ -29,4 +29,3 @@ class Adapter : ListAdapter<Article, Adapter.ViewHolder>(DiffCallback) {
         override fun areContentsTheSame(a: Article, b: Article) = a == b
     }
 }
-
