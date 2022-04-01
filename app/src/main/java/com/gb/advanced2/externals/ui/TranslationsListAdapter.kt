@@ -7,14 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gb.advanced2.databinding.TranslationsListItemBinding
 import com.gb.advanced2.entities.Article
-import com.gb.advanced2.entities.Articles
 
 class Adapter : ListAdapter<Article, Adapter.ViewHolder>(DiffCallback) {
-    fun setData(data: Articles) {
-        super.submitList(data)
-    }
-
-    fun clearData() = setData(Articles())
 
     inner class ViewHolder(val vb: TranslationsListItemBinding) : RecyclerView.ViewHolder(vb.root)
 

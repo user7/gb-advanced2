@@ -5,54 +5,35 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gb.advanced2.adapters.MainViewModel
 import com.gb.advanced2.app.App
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.databinding.ActivityMainBinding
-import com.gb.advanced2.entities.Articles
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), Contract.View {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val presenter = App.instance!!.presenter
     private val adapter = Adapter()
+
+    @Inject
+    lateinit var viewModel: Contract.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        App.instance!!.appComponent.inject(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.searchFab.setOnClickListener {
             SearchDialogFragment().apply {
-                onSearchClickListener = { text -> presenter.search(text) }
+                onSearchClickListener = { text -> viewModel.search(text) }
                 show(supportFragmentManager, DIALOG_TAG)
             }
         }
         binding.recyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.recyclerview.adapter = adapter
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.onAttachView(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.onDetachView()
-    }
-
-    override fun displayArticles(articles: Articles) {
-        adapter.setData(articles)
-        setProgressVisible(false)
-    }
-
-    override fun showLoadingScreen() {
-        adapter.clearData()
-        setProgressVisible(true)
-    }
-
-    override fun showError(error: String) {
-        adapter.clearData()
-        setProgressVisible(false)
-        Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
+        viewModel.getState().observe(this) { renderState(it) }
     }
 
     private fun setProgressVisible(visible: Boolean) {
@@ -62,6 +43,27 @@ class MainActivity : AppCompatActivity(), Contract.View {
         } else {
             binding.progress.visibility = View.GONE
             binding.recyclerview.visibility = View.VISIBLE
+        }
+    }
+
+    private fun renderState(state: Contract.AppState) {
+        when (state) {
+            is Contract.AppState.Loading -> {
+                setProgressVisible(true)
+            }
+            is Contract.AppState.Empty -> {
+                setProgressVisible(false)
+                adapter.submitList(null)
+            }
+            is Contract.AppState.DataLoaded -> {
+                setProgressVisible(false)
+                adapter.submitList(state.data)
+            }
+            is Contract.AppState.Error -> {
+                setProgressVisible(false)
+                adapter.submitList(null)
+                Toast.makeText(applicationContext, state.error, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
