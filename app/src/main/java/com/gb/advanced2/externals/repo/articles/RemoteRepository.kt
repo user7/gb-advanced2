@@ -1,18 +1,15 @@
-package com.gb.advanced2.externals.repo
+package com.gb.advanced2.externals.repo.articles
 
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.entities.Article
 import com.gb.advanced2.entities.Articles
-import com.gb.advanced2.externals.repo.retrofit.ApiService
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import io.reactivex.Observable
+import com.gb.advanced2.externals.repo.articles.retrofit.ApiService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.RuntimeException
 import java.net.ConnectException
 
-class RemoteRepository : Contract.Model {
+class RemoteRepository : Contract.ArticlesModel {
     private val retrofitService: ApiService by lazy { makeRetrofit() }
 
     private fun makeRetrofit(): ApiService {

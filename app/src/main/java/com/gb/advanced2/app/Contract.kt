@@ -2,23 +2,34 @@ package com.gb.advanced2.app
 
 import androidx.lifecycle.LiveData
 import com.gb.advanced2.entities.Articles
-import io.reactivex.Observable
+import com.gb.advanced2.entities.SearchHistoryRecords
 
 class Contract {
 
-    sealed class AppState {
-        class Empty : AppState()                               // nothing loaded yet
-        class Loading : AppState()                             // showing progress bar
-        data class DataLoaded(val data: Articles) : AppState()
-        data class Error(val error: String) : AppState()
+    sealed class SearchScreenState {
+        class Empty : SearchScreenState()                               // nothing loaded yet
+        class Loading : SearchScreenState()                             // showing progress bar
+        data class DataLoaded(val data: Articles) : SearchScreenState()
+        data class Error(val error: String) : SearchScreenState()
+    }
+
+    sealed class HistoryScreenState {
+        class Loading : HistoryScreenState()
+        data class HistoryLoaded(val history: SearchHistoryRecords) : HistoryScreenState()
+        data class Error(val error: String) : HistoryScreenState()
     }
 
     interface ViewModel {
-        fun getState(): LiveData<AppState>
+        fun getSearchScreenState(): LiveData<SearchScreenState>
+        fun getHistoryScreenState(): LiveData<HistoryScreenState>
         fun search(searchString: String)
     }
 
-    interface Model {
+    interface ArticlesModel {
         suspend fun getArticles(searchString: String): Articles
+    }
+
+    interface HistoryModel {
+        suspend fun getHistory(): SearchHistoryRecords
     }
 }

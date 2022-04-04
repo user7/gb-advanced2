@@ -1,4 +1,4 @@
-package com.gb.advanced2.externals.ui
+package com.gb.advanced2.externals.ui.main
 
 import android.os.Bundle
 import android.text.Editable

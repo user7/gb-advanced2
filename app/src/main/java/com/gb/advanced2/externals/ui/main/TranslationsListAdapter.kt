@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gb.advanced2.databinding.TranslationsListItemBinding
 import com.gb.advanced2.entities.Article
 
-class Adapter : ListAdapter<Article, Adapter.ViewHolder>(DiffCallback) {
+class SearchListAdapter : ListAdapter<Article, SearchListAdapter.ViewHolder>(DiffCallback) {
 
     inner class ViewHolder(val vb: TranslationsListItemBinding) : RecyclerView.ViewHolder(vb.root)
 

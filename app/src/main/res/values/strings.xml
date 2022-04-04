@@ -5,4 +5,6 @@
     <string name="clear_text">clear text</string>
     <string name="search_hint">search</string>
     <string name="progress_description">loading progress</string>
+    <string name="history_fab_description">History</string>
+    <string name="unimplemented">Unimplemented</string>
 </resources>
