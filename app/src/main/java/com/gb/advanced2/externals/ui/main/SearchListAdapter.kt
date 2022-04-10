@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.gb.advanced2.databinding.TranslationsListItemBinding
+import com.gb.advanced2.databinding.SearchListItemBinding
 import com.gb.advanced2.entities.Article
 
 class SearchListAdapter : ListAdapter<Article, SearchListAdapter.ViewHolder>(DiffCallback) {
 
-    inner class ViewHolder(val vb: TranslationsListItemBinding) : RecyclerView.ViewHolder(vb.root)
+    inner class ViewHolder(val vb: SearchListItemBinding) : RecyclerView.ViewHolder(vb.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        TranslationsListItemBinding.inflate(
+        SearchListItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
     )

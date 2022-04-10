@@ -2,6 +2,7 @@ package com.gb.advanced2.app
 
 import androidx.lifecycle.LiveData
 import com.gb.advanced2.entities.Articles
+import com.gb.advanced2.entities.SearchHistoryRecord
 import com.gb.advanced2.entities.SearchHistoryRecords
 
 class Contract {
@@ -30,6 +31,7 @@ class Contract {
     }
 
     interface HistoryModel {
-        suspend fun getHistory(): SearchHistoryRecords
+        suspend fun loadHistory(): SearchHistoryRecords
+        suspend fun saveHistoryRecord(record: SearchHistoryRecord)
     }
 }

@@ -38,10 +38,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.searchFab.setOnClickListener {
-            SearchDialogFragment().apply {
-                onSearchClickListener = { text -> viewModel.search(text) }
-                show(parentFragmentManager, DIALOG_TAG)
-            }
+            val dialog = SearchDialogFragment()
+            dialog.onSearchClickListener = { text -> viewModel.search(text) }
+            dialog.show(parentFragmentManager, DIALOG_TAG)
         }
         binding.historyFab.setOnClickListener { navigatorHolder.getNavigator().goToHistory() }
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.gb.advanced2.R
 import com.gb.advanced2.externals.ui.history.HistoryFragment
+import com.gb.advanced2.externals.ui.main.SearchFragment
 import com.gb.advanced2.externals.ui.navigation.Navigator
 import com.gb.advanced2.externals.ui.navigation.NavigatorHolder
 import org.koin.android.ext.android.inject
@@ -23,6 +24,14 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.main_container, HistoryFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            override fun goToSearch() {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_container, SearchFragment())
                     .addToBackStack(null)
                     .commit()
             }

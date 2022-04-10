@@ -65,8 +65,11 @@ dependencies {
     // Timber
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
+    // Room
     def roomVersion = "2.4.2"
     implementation "androidx.room:room-runtime:$roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+
+    // optional - coroutines support
+    implementation "androidx.room:room-ktx:$roomVersion"
 }

@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gb.advanced2.app.Contract
-import com.gb.advanced2.entities.Articles
-import com.gb.advanced2.entities.SearchHistoryRecords
+import com.gb.advanced2.entities.SearchHistoryRecord
 import com.gb.advanced2.externals.os.DispatcherProvider
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -17,12 +16,12 @@ class MainViewModel(
 ) : ViewModel(),
     Contract.ViewModel {
 
-    private val ioScope =
-        CoroutineScope(dispatcherProvider.io())
+    private val ioScope = CoroutineScope(dispatcherProvider.io())
 
     // экран поиска
     private val searchScreenState =
         MutableLiveData<Contract.SearchScreenState>(Contract.SearchScreenState.Empty())
+
     override fun getSearchScreenState(): LiveData<Contract.SearchScreenState> = searchScreenState
 
     private val searchErrorHandler = CoroutineExceptionHandler { _, e -> onSearchLoadingError(e) }
@@ -30,50 +29,45 @@ class MainViewModel(
         searchScreenState.value = Contract.SearchScreenState.Loading()
         ioScope.launch(searchErrorHandler) {
             val result = articlesModel.getArticles(searchString)
-            launch(dispatcherProvider.ui()) {
-                onSearchDataReady(result)
+            launch {
+                historyModel.saveHistoryRecord(
+                    SearchHistoryRecord(
+                        searchQuery = searchString,
+                        resultsCount = result.size,
+                    )
+                )
+                suspendLoadHistory()
             }
+            searchScreenState.postValue(Contract.SearchScreenState.DataLoaded(result))
         }
     }
 
-    private fun onSearchDataReady(data: Articles) {
-        searchScreenState.postValue(Contract.SearchScreenState.DataLoaded(data))
-    }
-
     private fun onSearchLoadingError(error: Throwable?) {
-        Timber.d("=== error: ${error?.toString() ?: "Unknown error"}")
-        searchScreenState.postValue(
-            Contract.SearchScreenState.Error(
-                error?.toString() ?: "Unknown Error"
-            )
-        )
+        val msg = error?.toString() ?: "Unknown error"
+        Timber.d("!! search error: $msg")
+        searchScreenState.postValue(Contract.SearchScreenState.Error(msg))
     }
 
     // экран истории
     private val historyScreenState =
         MutableLiveData<Contract.HistoryScreenState>(Contract.HistoryScreenState.Loading())
+
     override fun getHistoryScreenState(): LiveData<Contract.HistoryScreenState> = historyScreenState
 
     private val historyErrorHandler = CoroutineExceptionHandler { _, e -> onHistoryLoadingError(e) }
     private fun loadHistory() {
-        ioScope.launch(historyErrorHandler) {
-            val result = historyModel.getHistory()
-            launch(dispatcherProvider.ui()) {
-                onHistoryReady(result)
-            }
-        }
+        ioScope.launch(historyErrorHandler) { suspendLoadHistory() }
     }
 
-    private fun onHistoryReady(results: SearchHistoryRecords) {
-        historyScreenState.postValue(Contract.HistoryScreenState.HistoryLoaded(results))
+    private suspend fun suspendLoadHistory() {
+        val history = historyModel.loadHistory()
+        historyScreenState.postValue(Contract.HistoryScreenState.HistoryLoaded(history))
     }
 
     private fun onHistoryLoadingError(error: Throwable?) {
-        historyScreenState.postValue(
-            Contract.HistoryScreenState.Error(
-                error?.toString() ?: "Unknown Error"
-            )
-        )
+        val msg = error?.toString() ?: "Unknown error"
+        Timber.d("!! db error: $msg")
+        historyScreenState.postValue(Contract.HistoryScreenState.Error(msg))
     }
 
     init {
