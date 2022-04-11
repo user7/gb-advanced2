@@ -20,7 +20,7 @@ class LocalRepository(context: Context) : Contract.HistoryModel {
             )
         }
         Timber.d("!! from room: $list")
-        return SearchHistoryRecords(list)
+        return list
     }
 
     private val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale.getDefault())

@@ -1,6 +1,7 @@
 package com.gb.advanced2.externals.repo.articles
 
 import com.gb.advanced2.app.Contract
+import com.gb.advanced2.entities.Meaning
 import com.gb.advanced2.entities.Article
 import com.gb.advanced2.entities.Articles
 import com.gb.advanced2.externals.repo.articles.retrofit.ApiService
@@ -8,6 +9,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.ConnectException
+import java.util.*
 
 class RemoteRepository : Contract.ArticlesModel {
     private val retrofitService: ApiService by lazy { makeRetrofit() }
@@ -22,33 +24,24 @@ class RemoteRepository : Contract.ArticlesModel {
     }
 
     override suspend fun getArticles(searchString: String): Articles {
-        // конвертация retrofit объектов в entities.Article
-        val out = Articles()
         val resp = retrofitService.search(searchString)
         val body = resp.body()
             ?: throw ConnectException(resp.errorBody()?.toString() ?: "No response from server")
+        val articles = LinkedList<Article>()
         for (entry in body) {
-            if (entry.text == null || entry.meanings == null)
-                continue
-            val sb = StringBuilder()
-            for (meaning in entry.meanings) {
-                val trans = meaning.translation ?: continue
-
-                // разделение нескольких смыслов через ;
-                if (sb.isNotEmpty()) {
-                    sb.append("; ")
-                }
-
-                // основной текст
-                trans.text?.let { sb.append(it) }
-
-                // пояснительный текст
-                if (trans.note != null && trans.note != "") {
-                    sb.append(" (${trans.note})")
-                }
+            val term = entry.text ?: continue
+            val meanings = entry.meanings ?: continue
+            val out = LinkedList<Meaning>()
+            for (meaning in meanings) {
+                val translation = meaning.translation ?: continue
+                val text = translation.text ?: continue
+                val note = translation.note ?: ""
+                val desc = if (note.isEmpty()) text else "$text ($note)"
+                out.add(Meaning(desc = desc, imageUrl = meaning.imageUrl?.let { "https:$it" }))
             }
-            out.add(Article(entry.text, sb.toString()))
+            if (out.isNotEmpty())
+                articles.add(Article(term = term, meanings = out))
         }
-        return out
+        return articles
     }
 }

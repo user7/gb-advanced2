@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gb.advanced2.app.Contract
+import com.gb.advanced2.entities.Article
 import com.gb.advanced2.entities.SearchHistoryRecord
 import com.gb.advanced2.externals.os.DispatcherProvider
 import kotlinx.coroutines.*
@@ -73,4 +74,8 @@ class MainViewModel(
     init {
         loadHistory()
     }
+
+    private val descriptionScreenState = MutableLiveData<Article>(null)
+    override fun getDescriptionScreenState(): LiveData<Article> = descriptionScreenState
+    override fun setDescriptionArticle(article: Article) = descriptionScreenState.postValue(article)
 }

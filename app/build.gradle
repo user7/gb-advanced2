@@ -70,6 +70,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    // optional - coroutines support
+    // Room optional - coroutines support
     implementation "androidx.room:room-ktx:$roomVersion"
+
+    // Coil
+    implementation 'io.coil-kt:coil:2.0.0-rc02'
 }

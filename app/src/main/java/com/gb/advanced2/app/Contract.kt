@@ -1,6 +1,7 @@
 package com.gb.advanced2.app
 
 import androidx.lifecycle.LiveData
+import com.gb.advanced2.entities.Article
 import com.gb.advanced2.entities.Articles
 import com.gb.advanced2.entities.SearchHistoryRecord
 import com.gb.advanced2.entities.SearchHistoryRecords
@@ -22,8 +23,12 @@ class Contract {
 
     interface ViewModel {
         fun getSearchScreenState(): LiveData<SearchScreenState>
-        fun getHistoryScreenState(): LiveData<HistoryScreenState>
         fun search(searchString: String)
+
+        fun getHistoryScreenState(): LiveData<HistoryScreenState>
+
+        fun getDescriptionScreenState(): LiveData<Article>
+        fun setDescriptionArticle(article: Article)
     }
 
     interface ArticlesModel {

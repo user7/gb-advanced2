@@ -2,7 +2,7 @@ package com.gb.advanced2.entities
 
 data class Article(
     val term: String,
-    val desc: String,
+    val meanings: List<Meaning>,
 )
 
-typealias Articles = ArrayList<Article>
+typealias Articles = List<Article>

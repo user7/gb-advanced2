@@ -2,7 +2,9 @@ package com.gb.advanced2.externals.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.gb.advanced2.R
+import com.gb.advanced2.externals.ui.description.DescriptionFragment
 import com.gb.advanced2.externals.ui.history.HistoryFragment
 import com.gb.advanced2.externals.ui.main.SearchFragment
 import com.gb.advanced2.externals.ui.navigation.Navigator
@@ -20,25 +22,17 @@ class MainActivity : AppCompatActivity() {
     override fun onResumeFragments() {
         super.onResumeFragments()
         navigatorHolder.setNavigator(object : Navigator {
-            override fun goToHistory() {
+            private fun pushFragment(fragment: Fragment) {
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.main_container, HistoryFragment())
+                    .replace(R.id.main_container, fragment)
                     .addToBackStack(null)
                     .commit()
             }
-
-            override fun goToSearch() {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_container, SearchFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
-
-            override fun goBack() {
-                supportFragmentManager.popBackStack()
-            }
+            override fun goToHistory() = pushFragment(HistoryFragment())
+            override fun goToSearch() = pushFragment(SearchFragment())
+            override fun goToDescription() = pushFragment(DescriptionFragment())
+            override fun goBack() = supportFragmentManager.popBackStack()
         })
     }
 

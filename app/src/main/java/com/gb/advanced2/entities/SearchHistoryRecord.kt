@@ -5,4 +5,4 @@ data class SearchHistoryRecord(
     val resultsCount: Int,
 )
 
-typealias SearchHistoryRecords = ArrayList<SearchHistoryRecord>
+typealias SearchHistoryRecords = List<SearchHistoryRecord>

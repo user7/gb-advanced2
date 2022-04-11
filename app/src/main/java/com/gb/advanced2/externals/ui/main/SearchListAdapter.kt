@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gb.advanced2.databinding.SearchListItemBinding
 import com.gb.advanced2.entities.Article
+import com.gb.advanced2.entities.Meaning
+import java.lang.StringBuilder
 
-class SearchListAdapter : ListAdapter<Article, SearchListAdapter.ViewHolder>(DiffCallback) {
+class SearchListAdapter(private val onItemClick: (Article) -> Unit) :
+    ListAdapter<Article, SearchListAdapter.ViewHolder>(DiffCallback) {
 
     inner class ViewHolder(val vb: SearchListItemBinding) : RecyclerView.ViewHolder(vb.root)
 
@@ -21,7 +24,8 @@ class SearchListAdapter : ListAdapter<Article, SearchListAdapter.ViewHolder>(Dif
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = super.getItem(position)
         holder.vb.header.text = item.term
-        holder.vb.description.text = item.desc
+        holder.vb.description.text = item.meanings.joinToString(separator = "; ") { it.desc }
+        holder.vb.root.setOnClickListener { onItemClick(item) }
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Article>() {

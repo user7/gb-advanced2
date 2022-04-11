@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.advanced2.app.Contract
 import com.gb.advanced2.databinding.SearchFragmentBinding
+import com.gb.advanced2.entities.Article
 import com.gb.advanced2.externals.ui.SearchListAdapter
 import com.gb.advanced2.externals.ui.navigation.Navigator
 import com.gb.advanced2.externals.ui.navigation.NavigatorHolder
@@ -34,7 +35,7 @@ class SearchFragment : Fragment() {
 
     private val viewModel by inject<Contract.ViewModel>()
     private val navigatorHolder by inject<NavigatorHolder>()
-    private val adapter = SearchListAdapter()
+    private val adapter = SearchListAdapter { handleListClick(it) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.searchFab.setOnClickListener {
@@ -82,5 +83,10 @@ class SearchFragment : Fragment() {
                 Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun handleListClick(article: Article) {
+        viewModel.setDescriptionArticle(article)
+        navigatorHolder.getNavigator().goToDescription()
     }
 }
