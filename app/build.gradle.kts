@@ -42,6 +42,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.5.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+    implementation(project(mapOf("path" to ":retrofit")))
+    implementation(project(mapOf("path" to ":retrofit")))
+    implementation(project(mapOf("path" to ":retrofit")))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
@@ -50,11 +53,8 @@ dependencies {
     // Kotlin
     implementation("androidx.fragment:fragment-ktx:1.4.1")
 
-    // Retrofit 2
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.2")
-    implementation("com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0")
+    // Retrofit
+    implementation(project(":retrofit"))
 
     // Koin
     implementation("io.insert-koin:koin-core:3.1.5")
