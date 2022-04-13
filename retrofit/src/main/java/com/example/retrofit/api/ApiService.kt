@@ -1,4 +1,4 @@
-package com.gb.advanced2.externals.repo.articles.retrofit
+package com.example.retrofit.api
 
 import retrofit2.Response
 import retrofit2.http.GET

@@ -18,6 +18,7 @@ class MainViewModel(
     Contract.ViewModel {
 
     private val ioScope = CoroutineScope(dispatcherProvider.io())
+    private var job: Job? = null
 
     // экран поиска
     private val searchScreenState =
@@ -28,7 +29,8 @@ class MainViewModel(
     private val searchErrorHandler = CoroutineExceptionHandler { _, e -> onSearchLoadingError(e) }
     override fun search(searchString: String) {
         searchScreenState.value = Contract.SearchScreenState.Loading()
-        ioScope.launch(searchErrorHandler) {
+        job?.cancel()
+        job = ioScope.launch(searchErrorHandler) {
             val result = articlesModel.getArticles(searchString)
             launch {
                 historyModel.saveHistoryRecord(
@@ -57,7 +59,8 @@ class MainViewModel(
 
     private val historyErrorHandler = CoroutineExceptionHandler { _, e -> onHistoryLoadingError(e) }
     private fun loadHistory() {
-        ioScope.launch(historyErrorHandler) { suspendLoadHistory() }
+        job?.cancel()
+        job = ioScope.launch(historyErrorHandler) { suspendLoadHistory() }
     }
 
     private suspend fun suspendLoadHistory() {
