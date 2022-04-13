@@ -3,6 +3,8 @@ package com.gb.advanced2.externals.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
+import com.example.utils.viewById
 import com.gb.advanced2.R
 import com.gb.advanced2.app.createMainScope
 import com.gb.advanced2.externals.ui.description.DescriptionFragment
@@ -15,6 +17,7 @@ import org.koin.core.scope.Scope
 class MainActivity : AppCompatActivity() {
     private val scope: Scope by lazy { createMainScope() }
     private lateinit var navigatorHolder: NavigatorHolder
+    private val mainContainer by viewById<FragmentContainerView>(R.id.main_container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
