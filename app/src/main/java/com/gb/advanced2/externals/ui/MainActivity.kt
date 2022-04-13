@@ -4,19 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.gb.advanced2.R
+import com.gb.advanced2.app.createMainScope
 import com.gb.advanced2.externals.ui.description.DescriptionFragment
 import com.gb.advanced2.externals.ui.history.HistoryFragment
 import com.gb.advanced2.externals.ui.main.SearchFragment
 import com.gb.advanced2.externals.ui.navigation.Navigator
 import com.gb.advanced2.externals.ui.navigation.NavigatorHolder
-import org.koin.android.ext.android.inject
+import org.koin.core.scope.Scope
 
 class MainActivity : AppCompatActivity() {
-    private val navigatorHolder: NavigatorHolder by inject()
+    private val scope: Scope by lazy { createMainScope() }
+    private lateinit var navigatorHolder: NavigatorHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        navigatorHolder = scope.get()
     }
 
     override fun onResumeFragments() {
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             }
+
             override fun goToHistory() = pushFragment(HistoryFragment())
             override fun goToSearch() = pushFragment(SearchFragment())
             override fun goToDescription() = pushFragment(DescriptionFragment())
@@ -39,5 +43,10 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         navigatorHolder.removeNavigator()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.close()
     }
 }

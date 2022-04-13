@@ -8,12 +8,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.advanced2.app.Contract
+import com.gb.advanced2.app.createMainScope
+import com.gb.advanced2.app.getMainScope
 import com.gb.advanced2.databinding.SearchFragmentBinding
 import com.gb.advanced2.entities.Article
 import com.gb.advanced2.externals.ui.SearchListAdapter
 import com.gb.advanced2.externals.ui.navigation.Navigator
 import com.gb.advanced2.externals.ui.navigation.NavigatorHolder
 import org.koin.android.ext.android.inject
+import org.koin.core.scope.Scope
 
 class SearchFragment : Fragment() {
     private var _binding: SearchFragmentBinding? = null
@@ -24,6 +27,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        navigatorHolder = scope.get()
         _binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,8 +38,10 @@ class SearchFragment : Fragment() {
     }
 
     private val viewModel by inject<Contract.ViewModel>()
-    private val navigatorHolder by inject<NavigatorHolder>()
     private val adapter = SearchListAdapter { handleListClick(it) }
+
+    private lateinit var navigatorHolder: NavigatorHolder
+    private val scope: Scope by lazy { getMainScope() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.searchFab.setOnClickListener {
