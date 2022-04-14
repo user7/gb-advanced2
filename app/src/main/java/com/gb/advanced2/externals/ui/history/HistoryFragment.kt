@@ -8,10 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.advanced2.app.Contract
+import com.gb.advanced2.app.getMainScope
 import com.gb.advanced2.databinding.HistoryFragmentBinding
 import com.gb.advanced2.entities.SearchHistoryRecord
 import com.gb.advanced2.externals.ui.navigation.NavigatorHolder
 import org.koin.android.ext.android.inject
+import org.koin.core.scope.Scope
 
 class HistoryFragment : Fragment() {
     private var _binding: HistoryFragmentBinding? = null
@@ -22,6 +24,7 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        navigatorHolder = scope.get()
         _binding = HistoryFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,7 +36,9 @@ class HistoryFragment : Fragment() {
 
     private val adapter = HistoryListAdapter { handleListClick(it) }
     private val viewModel by inject<Contract.ViewModel>()
-    private val navigatorHolder by inject<NavigatorHolder>()
+
+    private lateinit var navigatorHolder: NavigatorHolder
+    private val scope: Scope by lazy { getMainScope() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

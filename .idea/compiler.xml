@@ -5,6 +5,7 @@
       <module name="gb-advanced2.app" target="11" />
       <module name="gb-advanced2.buildSrc" target="11" />
       <module name="gb-advanced2.mylibrary" target="11" />
+      <module name="gb-advanced2.utils" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
