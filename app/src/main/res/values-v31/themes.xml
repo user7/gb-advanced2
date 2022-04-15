@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.NewSplash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.Gbadvanced2</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenBackground">@color/purple_200</item>
+    </style>
+</resources>
