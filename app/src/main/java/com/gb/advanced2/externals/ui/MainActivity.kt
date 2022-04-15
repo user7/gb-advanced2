@@ -1,7 +1,12 @@
 package com.gb.advanced2.externals.ui
 
+import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.example.utils.viewById
@@ -21,8 +26,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var splashScreen = installSplashScreen()
         setContentView(R.layout.main_activity)
         navigatorHolder = scope.get()
+        splashScreen.setOnExitAnimationListener { screen ->
+            val slideDown = ObjectAnimator.ofFloat(
+                screen.view,
+                View.TRANSLATION_Y,
+                0f,
+                -screen.view.height.toFloat(),
+            ).apply {
+                interpolator = AnticipateInterpolator()
+                duration = 2000
+                doOnEnd { screen.remove() }
+                start()
+            }
+        }
     }
 
     override fun onResumeFragments() {
